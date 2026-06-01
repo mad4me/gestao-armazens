@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WareFlow ERP - Autenticação</title>
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-light: #f8fafc;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --white: #ffffff;
+            --success: #16a34a;
+            --error: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background-color: var(--white);
+            width: 100%;
+            max-width: 420px;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .login-header h1 {
+            color: var(--text-main);
+            font-size: 24px;
+            margin-top: 8px;
+        }
+
+        .login-header p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        .form-group input {
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            outline: none;
+            font-size: 14px;
+            transition: border 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary);
+        }
+
+        .btn-login {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+            margin-top: 8px;
+        }
+
+        .btn-login:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .toggle-text {
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 24px;
+        }
+
+        .toggle-text a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .toggle-text a:hover {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .alerta {
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .alerta.sucesso { background-color: #dcfce7; color: #15803d; }
+        .alerta.erro { background-color: #fee2e2; color: #b91c1c; }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        
+        <div id="view-login">
+            <div class="login-header">
+                <span style="font-size: 40px;">📦</span>
+                <h1>Entrar no WareFlow</h1>
+                <p>Insira as suas credenciais para aceder ao painel</p>
+            </div>
+
+            <div id="alerta-login" class="alerta hidden"></div>
+
+            <form id="form-login">
+                <div class="form-group">
+                    <label for="login-username">Utilizador</label>
+                    <input type="text" id="login-username" placeholder="ex: admin" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Palavra-passe</label>
+                    <input type="password" id="login-password" placeholder="••••••••" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn-login">Iniciar Sessão</button>
+            </form>
+
+            <p class="toggle-text">
+                Não tem uma conta? <a href="#" onclick="mudarAba('registo')">Criar conta</a>
+            </p>
+        </div>
+
+        <div id="view-registo" class="hidden">
+            <div class="login-header">
+                <span style="font-size: 40px;">📝</span>
+                <h1>Criar Nova Conta</h1>
+                <p>Registe um novo operador no back-end local</p>
+            </div>
+
+            <div id="alerta-registo" class="alerta hidden"></div>
+
+            <form id="form-registo">
+                <div class="form-group">
+                    <label for="registo-username">Nome de Utilizador</label>
+                    <input type="text" id="registo-username" placeholder="Escolha um username" required>
+                </div>
+                <div class="form-group">
+                    <label for="registo-password">Palavra-passe</label>
+                    <input type="password" id="registo-password" placeholder="Mínimo 4 caracteres" required>
+                </div>
+                <button type="submit" class="btn-login" style="background-color: #16a34a;">Concluir Registo</button>
+            </form>
+
+            <p class="toggle-text">
+                Já tem conta registada? <a href="#" onclick="mudarAba('login')">Fazer Login</a>
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        function mudarAba(aba) {
+            const viewLogin = document.getElementById("view-login");
+            const viewRegisto = document.getElementById("view-registo");
+            
+            // Limpa os alertas abertos
+            document.getElementById("alerta-login").classList.add("hidden");
+            document.getElementById("alerta-registo").classList.add("hidden");
+
+            if (aba === 'login') {
+                viewLogin.classList.remove("hidden");
+                viewRegisto.classList.add("hidden");
+            } else {
+                viewLogin.classList.add("hidden");
+                viewRegisto.classList.remove("hidden");
+            }
+        }
+
+        function mostrarAlerta(idAlerta, mensagem, tipo) {
+            const campoAlerta = document.getElementById(idAlerta);
+            campoAlerta.innerText = mensagem;
+            campoAlerta.className = `alerta ${tipo}`;
+            campoAlerta.classList.remove("hidden");
+        }
+
+        // Evento: Submissão de Novo Registo
+        document.getElementById("form-registo").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const novoUser = document.getElementById("registo-username").value.trim();
+            const novaPasse = document.getElementById("registo-password").value;
+
+            if (novaPasse.length < 4) {
+                mostrarAlerta("alerta-registo", "A palavra-passe deve conter pelo menos 4 caracteres!", "erro");
+                return;
+            }
+
+            let utilizadoresGuardados = JSON.parse(localStorage.getItem("utilizadores_erp")) || [];
+            
+            // Valida duplicados
+            if (utilizadoresGuardados.some(u => u.username.toLowerCase() === novoUser.toLowerCase()) || novoUser.toLowerCase() === 'admin') {
+                mostrarAlerta("alerta-registo", "Este nome de utilizador já se encontra registado!", "erro");
+                return;
+            }
+
+            // Guarda conta no array local
+            utilizadoresGuardados.push({ username: novoUser, password: novaPasse });
+            localStorage.setItem("utilizadores_erp", JSON.stringify(utilizadoresGuardados));
+
+            mostrarAlerta("alerta-registo", "Conta criada com sucesso! A redirecionar...", "sucesso");
+            document.getElementById("form-registo").reset();
+            
+            setTimeout(() => mudarAba('login'), 1200);
+        });
+
+        // Evento: Submissão de Validação de Login
+        document.getElementById("form-login").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const utilizadorDigitado = document.getElementById("login-username").value.trim();
+            const passeDigitada = document.getElementById("login-password").value;
+
+            // 1. Verificação Master Admin
+            if (utilizadorDigitado.toLowerCase() === "admin" && passeDigitada === "1234") {
+                localStorage.setItem("utilizador_sessao", "Administrador");
+                window.location.href = "index.html";
+                return;
+            }
+
+            // 2. Verificação de Contas criadas dinamicamente
+            let utilizadoresGuardados = JSON.parse(localStorage.getItem("utilizadores_erp")) || [];
+            const contaEncontrada = utilizadoresGuardados.find(u => u.username.toLowerCase() === utilizadorDigitado.toLowerCase());
+
+            if (contaEncontrada && contaEncontrada.password === passeDigitada) {
+                localStorage.setItem("utilizador_sessao", contaEncontrada.username);
+                window.location.href = "index.html";
+            } else {
+                mostrarAlerta("alerta-login", "Utilizador ou Palavra-passe incorretos!", "erro");
+            }
+        });
+    </script>
+</body>
+</html>

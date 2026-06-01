@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WareFlow ERP - Gestor de Armazéns</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <aside class="sidebar">
+            <div class="logo-area">
+                <span class="logo-icon">📦</span>
+                <h2>WareFlow ERP</h2>
+            </div>
+            
+            <div class="user-profile">
+                <div class="avatar">--</div>
+                <div class="user-info">
+                    <p class="user-name">Carregando...</p>
+                    <p class="user-role">Gestor de Stock</p>
+                </div>
+            </div>
+
+            <nav class="nav-menu" style="display: flex; flex-direction: column; height: calc(100% - 140px);">
+                <a href="#" class="nav-item active" id="menu-dashboard"><span>📊</span> Dashboard</a>
+                <a href="#" class="nav-item" id="menu-clientes"><span>👥</span> Clientes</a>
+                <a href="#" class="nav-item" id="menu-armazens"><span>🏢</span> Armazéns</a>
+                <a href="#" class="nav-item" id="menu-produtos"><span>📦</span> Produtos</a>
+                <a href="#" class="nav-item" id="menu-movimentacoes"><span>🔄</span> Movimentações</a>
+                
+                <a href="#" class="nav-item" id="menu-logout" style="margin-top: auto; color: #f87171; font-weight: 600;"><span>🚪</span> Terminar Sessão</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            
+            <section id="pag-dashboard" class="aba-conteudo">
+                <header class="topbar">
+                    <div class="page-title">
+                        <h1>Dashboard Principal</h1>
+                        <p class="subtitle">Estatísticas em tempo real do sistema de armazenamento</p>
+                    </div>
+                </header>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon icon-blue">📦</div>
+                        <div><span class="stat-label">Produtos em Stock</span><h3 class="stat-value" id="dash-total-prod">0</h3></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon icon-orange">⚠️</div>
+                        <div><span class="stat-label">Alertas Críticos</span><h3 class="stat-value" id="dash-stock-baixo">0</h3></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon icon-green">👥</div>
+                        <div><span class="stat-label">Clientes Ativos</span><h3 class="stat-value" id="dash-total-cli">0</h3></div>
+                    </div>
+                </div>
+
+                <div class="table-container" style="padding:24px; margin-top: 24px;">
+                    <h3>Ocupação Geral por Armazém</h3>
+                    <div id="dashboard-barras-armazens" style="margin-top:20px; display:flex; flex-direction:column; gap:16px;"></div>
+                </div>
+            </section>
+
+            <section id="pag-clientes" class="aba-conteudo hidden">
+                <header class="topbar">
+                    <div class="page-title">
+                        <h1>Gestão de Clientes</h1>
+                        <p class="subtitle">Administração de dados e contactos das empresas parceiras</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="abrirModal('Clientes')">+ Adicionar Cliente</button>
+                </header>
+                <div class="filter-bar">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="busca-clientes" placeholder="Pesquisar cliente por nome...">
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>ID</th><th>Nome da Empresa</th><th>Contacto</th><th>Localização</th><th>Status</th><th>Ações</th></tr>
+                        </thead>
+                        <tbody id="tabela-clientes-body"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="pag-armazens" class="aba-conteudo hidden">
+                <header class="topbar">
+                    <div class="page-title">
+                        <h1>Gestão de Armazéns</h1>
+                        <p class="subtitle">Controlo de infraestruturas físicas e ocupação</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="abrirModal('Armazéns')">+ Adicionar Armazém</button>
+                </header>
+                <div class="filter-bar">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="busca-armazens" placeholder="Pesquisar armazém...">
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>ID</th><th>Nome do Armazém</th><th>Localização</th><th>Capacidade Max (un)</th><th>Responsável</th><th>Ações</th></tr>
+                        </thead>
+                        <tbody id="tabela-armazens-body"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="pag-produtos" class="aba-conteudo hidden">
+                <header class="topbar">
+                    <div class="page-title">
+                        <h1>Gestão de Produtos</h1>
+                        <p class="subtitle">Controlo e monitorização de inventário global</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="abrirModal('Produtos')">+ Registar Produto</button>
+                </header>
+                <div class="filter-bar">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="busca-produtos" placeholder="Pesquisar produto...">
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>ID</th><th>Nome do Produto</th><th>Categoria</th><th>Armazém</th><th>Quantidade</th><th>Estado</th><th>Ações</th></tr>
+                        </thead>
+                        <tbody id="tabela-produtos-body"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="pag-movimentacoes" class="aba-conteudo hidden">
+                <header class="topbar">
+                    <div class="page-title">
+                        <h1>Histórico de Movimentações</h1>
+                        <p class="subtitle">Registo auditável de entradas e saídas de stock</p>
+                    </div>
+                </header>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>ID Operação</th><th>Data / Hora</th><th>Produto</th><th>Tipo</th><th>Quantidade</th><th>Operador</th></tr>
+                        </thead>
+                        <tbody id="tabela-movimentacoes-body"></tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="modal-global">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2 id="modal-titulo">Registar Novo</h2>
+                <button class="close-modal" onclick="fecharModal()">&times;</button>
+            </div>
+            <form id="form-global" class="modal-form">
+                <div id="campos-dinamicos"></div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="fecharModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Dados</button>
+                </div>
+            </form>
+            <div id="form-feedback" class="form-feedback hidden"></div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-confirmacao">
+        <div class="modal-box modal-confirm-box" style="max-width: 400px; text-align: center; padding: 32px;">
+            <div style="font-size: 48px; margin-bottom: 16px;">⚠️</div>
+            <h2 style="margin-bottom: 8px; color: #1e293b;">Confirmar Remoção</h2>
+            <p style="color: #64748b; font-size: 14px; margin-bottom: 24px; line-height: 1.5;">
+                Tens a certeza que desejas apagar este item? Esta ação não pode ser revertida no sistema.
+            </p>
+            <div class="form-actions" style="justify-content: center; gap: 12px; display: flex; width: 100%;">
+                <button type="button" class="btn btn-secondary" id="btn-cancelar-remover" style="margin: 0; flex: 1;">Cancelar</button>
+                <button type="button" class="btn" id="btn-confirmar-remover" style="background-color: #ef4444; color: white; margin: 0; flex: 1;">Sim, Apagar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

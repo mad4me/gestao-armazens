@@ -1,0 +1,29 @@
+{
+  "estatisticas": {
+    "totalProdutos": 0,
+    "stockBaixo": 0,
+    "totalClientes": 0
+  },
+  "produtos": [
+    { "id": "10101", "nome": "Paletes de Madeira", "categoria": "Logística", "armazem": "Armazém Central Aveiro", "quantidade": 1500, "estado": "OK" },
+    { "id": "10102", "nome": "Caixas de Cartão XL", "categoria": "Embalagem", "armazem": "Armazém Central Aveiro", "quantidade": 12, "estado": "Stock Baixo" },
+    { "id": "10103", "nome": "Fita Adesiva Industrial", "categoria": "Embalagem", "armazem": "Armazém Norte Ílhavo", "quantidade": 500, "estado": "OK" },
+    { "id": "10104", "nome": "Película Estirável", "categoria": "Logística", "armazem": "Armazém Central Aveiro", "quantidade": 850, "estado": "OK" },
+    { "id": "10105", "nome": "Baterias Empilhadora", "categoria": "Maquinaria", "armazem": "Armazém Sul Coimbra", "quantidade": 3, "estado": "Stock Baixo" }
+  ],
+  "clientes": [
+    { "id": "C001", "nome": "LogiTrans S.A.", "contacto": "912 345 678", "localizacao": "Porto", "status": "Ativo" },
+    { "id": "C002", "nome": "Distribuidora Aveirense", "contacto": "934 567 890", "localizacao": "Aveiro", "status": "Ativo" },
+    { "id": "C003", "nome": "Indústrias Norte", "contacto": "967 890 123", "localizacao": "Braga", "status": "Inativo" }
+  ],
+  "armazens": [
+    { "id": "A1", "nome": "Armazém Central Aveiro", "localizacao": "Zona Industrial", "capacidade": 3000, "responsavel": "Carlos Sousa" },
+    { "id": "A2", "nome": "Armazém Norte Ílhavo", "localizacao": "Gafanha da Nazaré", "capacidade": 1500, "responsavel": "Ana Rocha" },
+    { "id": "A3", "nome": "Armazém Sul Coimbra", "localizacao": "Pedrulha", "capacidade": 2000, "responsavel": "Rui Mendes" }
+  ],
+  "movimentacoes": [
+    { "id": "M901", "data": "2026-05-28 10:14", "produto": "Paletes de Madeira", "tipo": "Entrada", "qtd": 200, "utilizador": "Pedro Silva" },
+    { "id": "M902", "data": "2026-05-28 09:30", "produto": "Caixas de Cartão XL", "tipo": "Saída", "qtd": 50, "utilizador": "Rita Gomes" },
+    { "id": "M903", "data": "2026-05-27 16:45", "produto": "Fita Adesiva", "tipo": "Entrada", "qtd": 100, "utilizador": "Pedro Silva" }
+  ]
+}
